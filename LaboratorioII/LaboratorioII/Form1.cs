@@ -13,7 +13,8 @@ namespace LaboratorioII
     public partial class Form1 : Form
     {
         List<Calzado> calzados = new List<Calzado>();
-        public string nomProd;
+        
+
         int id = 0;
         
         string newid;
@@ -41,7 +42,7 @@ namespace LaboratorioII
             {
 
                 if (txtId.Text != "" && txtMarca.Text != "" && txtDescrip.Text != "" && cbxCategoria.Text != "" &&
-                   txtTalla.Text != "" && txtCantidad.Text != "" && txtPrecioC.Text != "")
+                    txtTalla.Text != "" && txtCantidad.Text != "" && txtPrecioC.Text != "")
                 {
                     double pVenta;
                     Calzado cls = new Calzado();
@@ -106,6 +107,17 @@ namespace LaboratorioII
                     txtTalla.Text = Convert.ToString(cl.Talla);
                     txtCantidad.Text = Convert.ToString(cl.Cantidad);
                     txtPrecioC.Text = Convert.ToString(cl.PrecioCompra);
+                    DialogResult respuesta = MessageBox.Show("Editaras el registro?", "Editar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (respuesta == DialogResult.Yes)
+                    {
+                        btnGuardar.Enabled = true;
+                        btnEliminar.Enabled = false;
+                    }
+                    else
+                    {
+                        btnEliminar.Enabled = true;
+                        btnGuardar.Enabled = false;
+                    }
 
                 }
 
@@ -184,7 +196,7 @@ namespace LaboratorioII
             {
                 foreach (Calzado cls in calzados)
                 {
-                    if (cls.idProducto == Convert.ToInt32(txtId.Text)) ;
+                    if (cls.idProducto == Convert.ToInt32(newid))
                     {
                         double pVenta;
                         cls.idProducto =Convert.ToInt32( newid);
@@ -204,7 +216,7 @@ namespace LaboratorioII
             catch (Exception e)
             {
 
-                throw;
+                MessageBox.Show("Error al editar", e.Message);
             }
            
         }
@@ -219,7 +231,7 @@ namespace LaboratorioII
                 {
                     foreach (Calzado p in calzados)
                     {
-                        if (p.idProducto ==Convert.ToInt32( newid))
+                        if (p.idProducto ==Convert.ToInt32(newid))
                         {
                             DialogResult respuesta = MessageBox.Show("Esta seguro de eliminar el registro?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                             if (respuesta == DialogResult.Yes)
@@ -236,37 +248,12 @@ namespace LaboratorioII
                 }
                 else
                 {
-                    MessageBox.Show("Campo nombre esta vacio!!");
+                    MessageBox.Show("Campo id esta vacio!!");
 
                 }
 
-                /* int idBusqueda = Convert.ToInt32(txtId.Text);
-                 int indice = calzados.FindIndex(cl => cl.idProducto == idBusqueda);
+                
 
-                 foreach (Calzado cls in calzados)
-                 {
-                     calzados.RemoveAt(indice);
-                     break;
-                 }*/
-
-
-
-                /*
-                if( txtId.Text != "")
-                {
-                    foreach( Calzado cls in calzados)
-                    {
-                        if( cls.idProducto == Convert.ToInt32(txtId.Text))
-                        {
-                            DialogResult respuesta = MessageBox.Show("Eliminaras el registro?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            if( respuesta == DialogResult.Yes)
-                            {
-                                calzados.Remove(cls);
-
-                            }
-                        }
-                    }
-                }*/
             }
             catch (Exception e)
             {
@@ -318,11 +305,88 @@ namespace LaboratorioII
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             Eliminar();
-            LimpiarCampos();
-          
-            Mostrar();
         }
 
-        
+        private void txtMarca_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan letras");
+                e.Handled = true;
+            }
+        }
+
+        private void txtDescrip_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            
+        }
+
+        private void txtTalla_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan numeros y puntos decimales");
+                e.Handled = true;
+            }
+        }
+
+        private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan numeros, sin decimales");
+                e.Handled = true;
+            }
+        }
+
+        private void txtPrecioC_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && !char.IsPunctuation(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan numeros y puntos decimales");
+                e.Handled = true;
+            }
+        }
+
+       
+
+
+        private void txtBuscar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan numeros, sin decimales");
+                e.Handled = true;
+            }
+        }
+
+        private void txtDato_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan letras");
+                e.Handled = true;
+            }
+        }
+
+        private void cbxFiltro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar)) 
+            {
+                MessageBox.Show("Solo se aceptan letras");
+                e.Handled = true;
+            }
+        }
+
+        private void cbxCategoria_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                MessageBox.Show("Solo se aceptan letras");
+                e.Handled = true;
+            }
+        }
+
+       
     }
 }
